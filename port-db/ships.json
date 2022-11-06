@@ -1,0 +1,37 @@
+[{
+  "_id": {
+    "$oid": "63655391a05ef73dbf9ebb45"
+  },
+  "name": "Flor del Mar",
+  "owner": {
+    "$oid": "636551f8a05ef73dbf9ebb3b"
+  },
+  "reg": "8-GC-1-1-445"
+},{
+  "_id": {
+    "$oid": "63655552a05ef73dbf9ebb4e"
+  },
+  "name": "Hugin",
+  "owner": {
+    "$oid": "6365531ba05ef73dbf9ebb41"
+  },
+  "reg": "8-GC-1-1-175"
+},{
+  "_id": {
+    "$oid": "6365555ba05ef73dbf9ebb4f"
+  },
+  "name": "Mugin",
+  "owner": {
+    "$oid": "6365531ba05ef73dbf9ebb41"
+  },
+  "reg": "8-GC-8-1-445"
+},{
+  "_id": {
+    "$oid": "636804873ed5c2719dbf52ab"
+  },
+  "name": "San Fermin",
+  "owner": {
+    "$oid": "636804583ed5c2719dbf52aa"
+  },
+  "reg": "8-GC-5-2-777"
+}]

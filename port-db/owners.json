@@ -1,0 +1,52 @@
+[{
+  "_id": {
+    "$oid": "636551f8a05ef73dbf9ebb3b"
+  },
+  "name": "Hamilton",
+  "DNI": "48877596N",
+  "email": "ham@gmail.com",
+  "ships": [
+    {
+      "$oid": "63655391a05ef73dbf9ebb45"
+    }
+  ],
+  "debt": [
+    ""
+  ]
+},{
+  "_id": {
+    "$oid": "6365531ba05ef73dbf9ebb41"
+  },
+  "name": "Joaquin",
+  "DNI": "48877596N",
+  "email": "joa@gmail.com",
+  "ships": [
+    {
+      "$oid": "63655552a05ef73dbf9ebb4e"
+    },
+    {
+      "$oid": "6365555ba05ef73dbf9ebb4f"
+    }
+  ],
+  "debt": [
+    {
+      "dock": {
+        "$oid": "63655818a05ef73dbf9ebb55"
+      },
+      "quantity": 5000
+    }
+  ]
+},{
+  "_id": {
+    "$oid": "636804583ed5c2719dbf52aa"
+  },
+  "name": "Ira",
+  "DNI": "26338877I",
+  "email": "ira@gmail.com",
+  "ships": [
+    {
+      "$oid": "636804873ed5c2719dbf52ab"
+    }
+  ],
+  "debt": []
+}]
