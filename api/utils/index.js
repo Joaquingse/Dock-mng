@@ -18,6 +18,16 @@ function authUser (req, res, next) {
   }
 }
 
+function checkAdmin(req, res, next) {
+    if (res.locals.user.role !== 'admin') { 
+        return res.status(401).send('User not authorized')
+    } else {
+        next()
+    }
+}
+
+
 module.exports = {
-  authUser
+  authUser,
+  checkAdmin
 }

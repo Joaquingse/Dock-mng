@@ -1,6 +1,17 @@
 const mongoose = require('mongoose');
 require('mongoose-type-email');
 
+const debtSchema = new mongoose.Schema ({
+    dock: {
+        type: Number,
+        required: [true, 'Dock ist required']
+    },
+    cuantity: {
+        type: Number,
+        required: [true, 'Debt cuantity ist required']
+    }
+})
+
 const userSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -8,7 +19,7 @@ const userSchema = new mongoose.Schema({
         minLength: [3, 'Name too short'],
         maxLength: [20, 'Name too long']
     },
-    DNI: {
+    dni: {
         type: String,
         required: [true, 'DNI required'],
         unique: [true, 'This DNI is registred'],
@@ -29,11 +40,12 @@ const userSchema = new mongoose.Schema({
         enum: ['admin', 'owner'],
         default: 'owner'
     },
-    ships: {
-        type: [mongoose.Schema.Types.ObjectId],
-    },
+    ships: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'ship'
+    }],
     debt: {
-        type: [Object]
+        type: [debtSchema]
     }
 });
 
