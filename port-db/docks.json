@@ -1,0 +1,67 @@
+[{
+  "_id": {
+    "$oid": "6365491aa05ef73dbf9ebb32"
+  },
+  "dock": 1,
+  "ocuppied": true,
+  "check-in": {
+    "$date": {
+      "$numberLong": "1664665200000"
+    }
+  },
+  "check-out": {
+    "$date": {
+      "$numberLong": "1696118400000"
+    }
+  },
+  "paid": true,
+  "ship": {
+    "$oid": "63655391a05ef73dbf9ebb45"
+  }
+},{
+  "_id": {
+    "$oid": "63654a24a05ef73dbf9ebb33"
+  },
+  "dock": 2,
+  "ocuppied": false
+},{
+  "_id": {
+    "$oid": "63655818a05ef73dbf9ebb55"
+  },
+  "dock": 3,
+  "ocuppied": true,
+  "check-in": {
+    "$date": {
+      "$numberLong": "1667343600000"
+    }
+  },
+  "check-out": {
+    "$date": {
+      "$numberLong": "1669852800000"
+    }
+  },
+  "paid": false,
+  "ship": {
+    "$oid": "63655552a05ef73dbf9ebb4e"
+  }
+},{
+  "_id": {
+    "$oid": "6365582ca05ef73dbf9ebb56"
+  },
+  "dock": 4,
+  "ocuppied": true,
+  "check-in": {
+    "$date": {
+      "$numberLong": "1667343600000"
+    }
+  },
+  "check-out": {
+    "$date": {
+      "$numberLong": "1701388800000"
+    }
+  },
+  "paid": true,
+  "ship": {
+    "$oid": "6365555ba05ef73dbf9ebb4f"
+  }
+}]
