@@ -6,13 +6,15 @@ const {
     getInfo,
     getShips,
     addShip,
-    updateProfile
+    updateProfile,
+    updateOwnShip
   } = require('../controllers/profile.controller')
 
 router.get('/', authUser, getInfo)
 router.get('/ships', authUser, getShips)
 router.post('/ships', authUser, addShip)
-router.put('/update', authUser, updateProfile)
+router.put('/updateProfile', authUser, updateProfile)
+router.put('/updateShip/:id', authUser, updateOwnShip)
   
 
 

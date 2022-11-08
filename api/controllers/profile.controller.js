@@ -31,15 +31,31 @@ function addShip(req, res) {
   }
 
 function updateProfile(req, res) {
-    console.log(res.locals.user)
       Users.findOneAndUpdate({email: `${res.locals.user.email}`}, req.body)
     .then(() => res.json('User updated'))
     .catch((err) => res.json(err));
+}
+
+function updateOwnShip(req, res) {
+  Users.findOne({email: `${res.locals.user.email}`})
+    .then(user => {
+      if(!user.ships.includes(req.params.id)) {
+        return res.status(401).send('You can not manage this ship data')
+      }
+      Ships.findByIdAndUpdate(req.params.id, req.body)
+        .then(ship => {
+          console.log(ship)
+          res.json(user)
+        })
+        .catch((err) => res.json(err))
+    })
+    .catch((err) => res.json(err))
 }
 
 module.exports = {
     getInfo,
     getShips,
     addShip,
-    updateProfile
+    updateProfile,
+    updateOwnShip
   };
