@@ -6,14 +6,16 @@ const {
 } = require('../utils') 
 
 const {
-    getAllOwners,
+    getAllUsers,
+    getDebitors,
     getUser,
     createUser,
     updateUser,
     deleteUser,
   } = require('../controllers/user.controller')
 
-router.get('/', authUser, checkAdmin, getAllOwners)
+router.get('/', authUser, checkAdmin, getAllUsers)
+router.get('/debitors', authUser, checkAdmin, getDebitors)
 router.get('/:id', authUser, checkAdmin, getUser)
 router.post('/', authUser, checkAdmin, createUser)
 router.delete('/:id', authUser, checkAdmin, deleteUser)

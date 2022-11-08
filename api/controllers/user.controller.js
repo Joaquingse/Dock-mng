@@ -1,14 +1,20 @@
 const Users = require("../models/user.model");
 const bcrypt = require('bcrypt') // importamos para encryptar el password
+const Payments = require('../models/payment.model')
 
 
-function getAllOwners(req, res) {
+function getAllUsers(req, res) {
   Users.find(req.query)
     .then((users) => {
-        let owners = users.filter(user => user.role === 'owner')
-        res.json(owners);
+        res.json(users);
     })
     .catch((err) => res.json(err));
+}
+
+function getDebitors(req, res) {
+  Payments.find({paid: false})
+    .then(payment => res.json(payment))
+    .catch()
 }
 
 function getUser(req, res) {
@@ -41,7 +47,8 @@ function deleteUser(req, res) {
 
 
 module.exports = {
-  getAllOwners,
+  getAllUsers,
+  getDebitors,
   getUser,
   createUser,
   updateUser,

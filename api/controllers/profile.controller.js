@@ -1,5 +1,6 @@
 const Ships = require('../models/ship.model')
 const Users = require("../models/user.model");
+const Payments = require("../models/payment.model");
 
 function getInfo(req, res) {
     Users.findOne({email: `${res.locals.user.email}`})
@@ -15,6 +16,12 @@ function getShips(req, res) {
     .catch((err) => res.json(err));
 }
 
+function getBills(req, res) {
+  Payments.find({owner: `${res.locals.user.id}`})
+  .then(bills => res.json(bills))
+  .catch()
+}
+
 function addShip(req, res) {
     Users.findOne({ email: `${res.locals.user.email}` })
       .then((user) => {
@@ -28,7 +35,18 @@ function addShip(req, res) {
           .catch((err) => res.json(err));
       })
       .catch((err) => res.json(err))
-  }
+}
+
+function pay(req, res) {
+  Payments.findOne({owner: `${res.locals.user.id}`})
+        .then(bill => {
+            bill.paid = true
+            bill['payDate'] = Date()
+            bill.save()
+            res.json(bill)
+        })
+        .catch()
+}
 
 function updateProfile(req, res) {
       Users.findOneAndUpdate({email: `${res.locals.user.email}`}, req.body)
@@ -55,7 +73,9 @@ function updateOwnShip(req, res) {
 module.exports = {
     getInfo,
     getShips,
+    getBills,
     addShip,
+    pay,
     updateProfile,
     updateOwnShip
   };

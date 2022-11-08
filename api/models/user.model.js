@@ -1,17 +1,6 @@
 const mongoose = require('mongoose');
 require('mongoose-type-email');
 
-const debtSchema = new mongoose.Schema ({
-    dock: {
-        type: Number,
-        required: [true, 'Dock ist required']
-    },
-    cuantity: {
-        type: Number,
-        required: [true, 'Debt cuantity ist required']
-    }
-})
-
 const userSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -43,10 +32,7 @@ const userSchema = new mongoose.Schema({
     ships: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'ship'
-    }],
-    debt: {
-        type: [debtSchema]
-    }
+    }]
 });
 
 const userModel = mongoose.model('user', userSchema);
