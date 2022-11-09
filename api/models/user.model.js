@@ -26,13 +26,22 @@ const userSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        enum: ['admin', 'owner'],
+        enum: ['admin', 'owner', 'worker'],
         default: 'owner'
     },
     ships: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'ship'
-    }]
+    }],
+    department: {
+        type: String,
+        enum: ['finances', 'RRHH', 'maintenance'],
+        required: [function() {return this.role === 'worker'}, 'Department is required for workers']
+    },
+    active: {
+        type: Boolean,
+        required: [function() {return this.role === 'worker'}, 'Department is required for workers']
+    }
 });
 
 const userModel = mongoose.model('user', userSchema);

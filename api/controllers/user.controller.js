@@ -11,10 +11,13 @@ function getAllUsers(req, res) {
     .catch((err) => res.json(err));
 }
 
-function getDebitors(req, res) {
-  Payments.find({paid: false})
-    .then(payment => res.json(payment))
-    .catch()
+function getWorkers(req, res) {
+  Users.find(req.query)
+    .then((users) => {
+        let workers = users.filter(user => user.role === 'worker')
+        res.json(workers);
+    })
+    .catch((err) => res.json(err));
 }
 
 function getUser(req, res) {
@@ -33,7 +36,9 @@ function createUser(req, res) {
 
 function updateUser(req, res) {
   // enctriptamos el password al actualizarlo
-  req.body.password = bcrypt.hashSync(req.body.password, 10)
+  if(req.body.password) {
+    req.body.password = bcrypt.hashSync(req.body.password, 10)
+  }
   Users.findByIdAndUpdate(req.params.id, req.body)
     .then((result) => res.json(result))
     .catch((err) => res.json(err));
@@ -48,7 +53,7 @@ function deleteUser(req, res) {
 
 module.exports = {
   getAllUsers,
-  getDebitors,
+  getWorkers,
   getUser,
   createUser,
   updateUser,

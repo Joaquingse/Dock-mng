@@ -5,7 +5,7 @@ const { authUser } = require('../utils')
 const {
     getInfo,
     getShips,
-    getBills,
+    getOwnBills,
     addShip,
     pay,
     updateProfile,
@@ -14,7 +14,7 @@ const {
 
 router.get('/', authUser, getInfo)
 router.get('/ships', authUser, getShips)
-router.get('/bills', authUser, getBills)
+router.get('/bills', authUser, getOwnBills)
 router.post('/ships', authUser, addShip)
 router.put('/pay', authUser, pay)
 router.put('/updateProfile', authUser, updateProfile)

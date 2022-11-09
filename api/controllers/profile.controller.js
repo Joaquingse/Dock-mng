@@ -16,9 +16,12 @@ function getShips(req, res) {
     .catch((err) => res.json(err));
 }
 
-function getBills(req, res) {
-  Payments.find({owner: `${res.locals.user.id}`})
-  .then(bills => res.json(bills))
+function getOwnBills(req, res) {
+  Payments.find(req.query)
+  .then(bills => {
+    let userBills = bills.filter(bill => bill.owner.toString() === res.locals.user.id)
+    res.json(userBills)
+  })
   .catch()
 }
 
@@ -49,7 +52,8 @@ function pay(req, res) {
 }
 
 function updateProfile(req, res) {
-      Users.findOneAndUpdate({email: `${res.locals.user.email}`}, req.body)
+  
+  Users.findOneAndUpdate({email: `${res.locals.user.email}`}, req.body)
     .then(() => res.json('User updated'))
     .catch((err) => res.json(err));
 }
@@ -73,7 +77,7 @@ function updateOwnShip(req, res) {
 module.exports = {
     getInfo,
     getShips,
-    getBills,
+    getOwnBills,
     addShip,
     pay,
     updateProfile,

@@ -18,6 +18,30 @@ function authUser (req, res, next) {
   }
 }
 
+function checkMaintenance(req, res, next) {
+  if (res.locals.user.department !== 'maintenance') { 
+      return res.status(401).send('User not authorized')
+  } else {
+      next()
+  }
+}
+
+function checkRRHH(req, res, next) {
+  if (res.locals.user.department !== 'RRHH' && res.locals.user.role !== 'admin') { 
+      return res.status(401).send('User not authorized')
+  } else {
+      next()
+  }
+}
+
+function checkFinances(req, res, next) {
+  if (res.locals.user.department !== 'finances' && res.locals.user.role !== 'admin') { 
+      return res.status(401).send('User not authorized')
+  } else {
+      next()
+  }
+}
+
 function checkAdmin(req, res, next) {
   if (res.locals.user.role !== 'admin') { 
       return res.status(401).send('User not authorized')
@@ -29,5 +53,8 @@ function checkAdmin(req, res, next) {
 
 module.exports = {
   authUser,
+  checkMaintenance,
+  checkRRHH,
+  checkFinances,
   checkAdmin
 }

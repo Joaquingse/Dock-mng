@@ -2,6 +2,7 @@ const router = require('express').Router()
 
 const {
   authUser,
+  checkMaintenance,
   checkAdmin
 } = require('../utils') 
 
@@ -13,7 +14,7 @@ const {
     updateDock
   } = require('../controllers/dock.controller')
 
-router.get('/', authUser, checkAdmin, getDocks)
+router.get('/', authUser, checkMaintenance, getDocks)
 router.get('/available', getAvailableDocks)
 router.post('/', authUser, checkAdmin, addDock)
 router.put('/reserve', authUser, reserveDock)
