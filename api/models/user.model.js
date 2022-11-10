@@ -1,17 +1,6 @@
 const mongoose = require('mongoose');
 require('mongoose-type-email');
 
-const debtSchema = new mongoose.Schema ({
-    dock: {
-        type: Number,
-        required: [true, 'Dock ist required']
-    },
-    cuantity: {
-        type: Number,
-        required: [true, 'Debt cuantity ist required']
-    }
-})
-
 const userSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -37,15 +26,21 @@ const userSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        enum: ['admin', 'owner'],
+        enum: ['admin', 'owner', 'worker'],
         default: 'owner'
     },
     ships: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'ship'
     }],
-    debt: {
-        type: [debtSchema]
+    department: {
+        type: String,
+        enum: ['finances', 'RRHH', 'maintenance'],
+        required: [function() {return this.role === 'worker'}, 'Department is required for workers']
+    },
+    active: {
+        type: Boolean,
+        required: [function() {return this.role === 'worker'}, 'Department is required for workers']
     }
 });
 
