@@ -5,6 +5,7 @@ const Payments = require('../models/payment.model')
 
 function getAllUsers(req, res) {
   Users.find(req.query)
+    .populate('ships')
     .then((users) => {
         res.json(users);
     })
@@ -39,13 +40,15 @@ function updateUser(req, res) {
   if(req.body.password) {
     req.body.password = bcrypt.hashSync(req.body.password, 10)
   }
-  Users.findByIdAndUpdate(req.params.id, req.body)
+  Users.findByIdAndUpdate(req.params.id, req.body, {new: true})
+    .populate('ships')
     .then((result) => res.json(result))
     .catch((err) => res.json(err));
 }
 
 function deleteUser(req, res) {
   Users.findByIdAndDelete(req.params.id)
+    .populate('ships')
     .then((result) => res.json(result))
     .catch((err) => res.json(err));
 }

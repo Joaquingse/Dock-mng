@@ -26,7 +26,7 @@ function reserveDock(req, res) {
         .then(ship => {
             reserve.ship = ship.id;
             reserve['occuppied'] = true;
-            Docks.findOneAndUpdate({dock: req.body.dock}, reserve)
+            Docks.findOneAndUpdate({dock: req.body.dock}, reserve, {new: true})
                 .then(dock =>{
                     Payments.create({
                         quantity: 500, // CALCULAR POR DÍAS
@@ -46,7 +46,7 @@ function reserveDock(req, res) {
 }
 
 function updateDock(req, res) {
-    Docks.findByIdAndUpdate(req.params.id, req.body)
+    Docks.findByIdAndUpdate(req.params.id, req.body, {new: true})
       .then((result) => res.json(result))
       .catch((err) => res.json(err));
   }

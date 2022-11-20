@@ -4,6 +4,7 @@ const Users = require("../models/user.model");
 
 function getAllShips(req, res) {
   Ships.find(req.query)
+    .populate('owner')
     .then((ships) => res.json(ships))
     .catch((err) => res.json(err));
 }
@@ -18,11 +19,11 @@ function addShip(req, res) {
   Ships.create(req.body)
     .then((ship) => {
        Users.findById(req.body.owner)
+        .populate('ships')
         .then(user => {
-          console.log(ship.id)
           user.ships.push(ship.id)
           user.save()
-          res.json(user)
+          res.json(ship)
         })
         .catch((err) => res.json(err));
     })
@@ -30,8 +31,8 @@ function addShip(req, res) {
 }
 
 function updateShip(req, res) {
-  Ships.findByIdAndUpdate(req.params.id, req.body)
-    .then(res.json('Ship data updated!'))
+  Ships.findByIdAndUpdate(req.params.id, req.body, {new: true})
+    .then(ship => res.json(ship))
     .catch((err) => res.json(err));
 }
 
@@ -43,7 +44,7 @@ function deleteShip(req, res) {
           let index = user.ships.indexOf(ship.id)
           user.ships.splice(index, 1)
           user.save()
-          res.json(user)
+          res.json(ship)
         })
         .catch((err) => res.json(err));
     })
