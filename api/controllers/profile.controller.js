@@ -3,7 +3,7 @@ const Users = require("../models/user.model");
 const Payments = require("../models/payment.model");
 
 function getInfo(req, res) {
-    Users.findOne({email: `${res.localStorage.email}`})
+    Users.findOne({email: `${res.locals.user.email}`})
     .populate('ships')
     .then(user => res.json(user))
     .catch((err) => res.json(err));
