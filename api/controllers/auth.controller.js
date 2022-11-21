@@ -13,7 +13,7 @@ async function signup (req, res) {
 
     res.status(200).json({ email: user.email, token }) // token: token
   } catch (error) {
-    res.status(400).send(`Error creating user: ${error}`)
+    res.status(400).send(error)
     //throw new Error(`Error creating user: ${error}`)
   }
 }
