@@ -14,7 +14,7 @@ async function signup (req, res) {
     res.status(200).json({ email: user.email, token }) // token: token
   } catch (error) {
     res.status(500).send(`Error creating user: ${error}`)
-    throw new Error(`Error creating user: ${error}`)
+    //throw new Error(`Error creating user: ${error}`)
   }
 }
 
@@ -40,7 +40,7 @@ async function login (req, res) {
     })
   } catch (error) {
     res.status(500).send('Error logging user')
-    throw new Error(`Error logging user: ${error}`)
+    //throw new Error(`Error logging user: ${error}`)
   }
 }
 
