@@ -20,30 +20,74 @@ function addDock(req, res) {
         .catch((err) => res.json(err));
 }
 
-function reserveDock(req, res) {
-    let reserve = req.body
+async function reserveDock(req, res) {
+
+    let ship = await Ships.findOne({name: req.body.ship})
+    let dock = await Docks.findOne({dock: req.body.dock})
+
+    let reservation = req.body
+    reservation.quantity = (new Date(reservation.outDate).getTime() - new Date(reservation.inDate).getTime()) / (1000 * 3600 * 24) * 10, // CALCULAR POR DÍAS
+    reservation.owner = res.locals.user.id
+    reservation.ship = ship.id;
+    reservation.dock = dock.id
+
+    let checkRes = await Payments.findOne(reservation)
+
+    let wantedInDate = reservation.inDate
+    let wantedOutDate = reservation.outDate
+    
+    let existingRes = await Payments.find({ $and: [{dock: dock.id}, { $or: [
+        { $and: [{outDate: {$gte: wantedInDate}}, {outDate: {$lte: wantedOutDate}}] }, 
+        { $and: [{inDate: {$gte: wantedInDate}}, {inDate: {$lte: wantedOutDate}}] }, 
+        { $and: [{inDate: {$gte: wantedInDate}}, {outDate: {$lte: wantedOutDate}}] }, 
+        { $and: [{inDate: {$lte: wantedInDate}}, {outDate: {$gte: wantedOutDate}}] }
+    ]} ]})
+
+    if (checkRes) {
+        res.json('This reservation is already done')
+    }
+    else if (existingRes.length !== 0) {
+        res.json('This dock is is not available those days. Please, change days or dock')
+    }
+    else {
+        reservation.resDate = Date()
+        let reserve = await Payments.create(reservation)
+        res.json(reserve) 
+    }
+}
+
+/* function reserveDock(req, res) {
+
+    let reservation = req.body
+    reservation.quantity = (new Date(reservation.outDate).getTime() - new Date(reservation.inDate).getTime()) / (1000 * 3600 * 24) * 10, // CALCULAR POR DÍAS
+    reservation.owner = res.locals.user.id
+
     Ships.findOne({name: req.body.ship})
         .then(ship => {
-            reserve.ship = ship.id;
-            reserve['occuppied'] = true;
-            Docks.findOneAndUpdate({dock: req.body.dock}, reserve, {new: true})
+            reservation.ship = ship.id;
+            Docks.findOne({dock: req.body.dock})
                 .then(dock =>{
-                    Payments.create({
-                        quantity: 500, // CALCULAR POR DÍAS
-                        dock: dock.id,
-                        owner: res.locals.user.id,
-                        resDate: Date()
-                    })
-                    .then(res.json(dock))
-                    .catch()    
+                    reservation.dock = dock.id
+                    console.log(reservation)
+                    Payments.findOne(reservation)
+                        .then(payment => {
+                            console.log(payment)
+                            if (!payment) {
+                                reservation.resDate = Date()
+                                Payments.create(reservation)
+                                    .then(payment => res.json(payment))
+                                    .catch()
+                            }
+                            else {
+                                res.json('This reservation is already done')
+                            }
+                        }) 
+                        .catch((err) => res.json(err))
                 }) 
-                .catch()
-            console.log(ship)
-            console.log(ship.owner)
-            
+                .catch((err) => res.json(err))            
         }) 
-        .catch()
-}
+        .catch((err) => res.json(err))
+} */
 
 function updateDock(req, res) {
     Docks.findByIdAndUpdate(req.params.id, req.body, {new: true})

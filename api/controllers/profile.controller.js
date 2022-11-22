@@ -18,6 +18,7 @@ function getShips(req, res) {
 
 function getOwnBills(req, res) {
   Payments.find(req.query)
+  .populate('dock')
   .then(bills => {
     let userBills = bills.filter(bill => bill.owner.toString() === res.locals.user.id)
     res.json(userBills)
@@ -52,7 +53,6 @@ function pay(req, res) {
 }
 
 function updateProfile(req, res) {
-  
   Users.findOneAndUpdate({email: `${res.locals.user.email}`}, req.body, {new: true})
     .populate('ships')
     .then((user) => res.json(user))
