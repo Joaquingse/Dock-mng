@@ -42,7 +42,7 @@ function addShip(req, res) {
 }
 
 function pay(req, res) {
-  Payments.findOne({ $and: [{owner: `${res.locals.user.id}`}, {id: `${req.body.paymentId}`}], {new: true}})
+  Payments.findOne({ $and: [{owner: `${res.locals.user.id}`}, {id: `${req.body.paymentId}`}] })
         .then(bill => {
             bill.paid = true
             bill['payDate'] = Date()
