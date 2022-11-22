@@ -24,6 +24,8 @@ async function reserveDock(req, res) {
     
     try {
         
+     console.log('entered')
+        
     let ship = await Ships.findOne({name: req.body.ship})
     let dock = await Docks.findOne({dock: req.body.dock})
 
@@ -46,14 +48,18 @@ async function reserveDock(req, res) {
     ]} ]})
 
     if (checkRes) {
+        console.log('checkres: ', checkRes)
         res.json('This reservation is already done')
     }
     else if (existingRes.length !== 0) {
+        console.log('existingRes: ', existingRes)
         res.json('This dock is is not available those days. Please, change days or dock')
     }
     else {
+        console.log('entered in else')
         reservation.resDate = Date()
         let reserve = await Payments.create(reservation)
+        console.log(reserve)
         res.json(reserve) 
     }
     
