@@ -34,7 +34,7 @@ function addShip(req, res) {
           .then((ship) => {
             user.ships.push(ship.id)
             user.save()
-            res.send('Ship added successfuly!')
+            res.send()
           })
           .catch((err) => res.json(err));
       })
@@ -53,9 +53,9 @@ function pay(req, res) {
 }
 
 function updateProfile(req, res) {
-  
-  Users.findOneAndUpdate({email: `${res.locals.user.email}`}, req.body)
-    .then(() => res.json('User updated'))
+  Users.findOneAndUpdate({email: `${res.locals.user.email}`}, req.body, {new: true})
+    .populate('ships')
+    .then((user) => res.json(user))
     .catch((err) => res.json(err));
 }
 
@@ -65,10 +65,10 @@ function updateOwnShip(req, res) {
       if(!user.ships.includes(req.params.id)) {
         return res.status(401).send('You can not manage this ship data')
       }
-      Ships.findByIdAndUpdate(req.params.id, req.body)
+      Ships.findByIdAndUpdate(req.params.id, req.body, {new: true})
         .then(ship => {
           console.log(ship)
-          res.json(user)
+          res.json(ship)
         })
         .catch((err) => res.json(err))
     })

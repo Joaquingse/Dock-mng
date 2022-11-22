@@ -23,6 +23,14 @@ const paymentSchema = new mongoose.Schema({
         type: Date,
         required: [true, 'Reservation date is required']
     },
+    inDate: {
+        type: Date,
+        required: [true, 'Incomming date is required for reservation']
+    },
+    outDate: {
+        type: Date,
+        required: [true, 'Outcomming date is required for reservation']
+    },
     payDate: {
         type: Date,
         required: [function() {return this.paid === true}, 'Payment date is required']
