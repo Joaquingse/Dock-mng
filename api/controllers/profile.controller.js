@@ -18,6 +18,7 @@ function getShips(req, res) {
 
 function getOwnBills(req, res) {
   Payments.find(req.query)
+  .populate('dock')
   .then(bills => {
     let userBills = bills.filter(bill => bill.owner.toString() === res.locals.user.id)
     res.json(userBills)
