@@ -16,19 +16,24 @@ async function getAvailableDocks(req, res) {
 
     let wantedInDate = req.body.inDate
     let wantedOutDate = req.body.outDate
-
-    let existingRes = await Payments.find({ $or: [
+    
+    if(req.body.inDate === '' || req.body.outDate === '' ) {
+        res.json('Empty inDate or outDate')
+    }
+    else {
+        let existingRes = await Payments.find({ $or: [
         { $and: [{outDate: {$gte: wantedInDate}}, {outDate: {$lte: wantedOutDate}}] }, 
         { $and: [{inDate: {$gte: wantedInDate}}, {inDate: {$lte: wantedOutDate}}] }, 
         { $and: [{inDate: {$gte: wantedInDate}}, {outDate: {$lte: wantedOutDate}}] }, 
         { $and: [{inDate: {$lte: wantedInDate}}, {outDate: {$gte: wantedOutDate}}] }
-    ]} ).populate('dock')
+        ]} ).populate('dock')
 
-    let occupiedDocks = existingRes.map(elem => elem.dock.dock)
+        let occupiedDocks = existingRes.map(elem => elem.dock.dock)
 
-    let availableDocks = dockList.filter(elem => !occupiedDocks.includes(elem.dock))
+        let availableDocks = dockList.filter(elem => !occupiedDocks.includes(elem.dock))
 
-    res.json(availableDocks)
+        res.json(availableDocks)
+    }
 }
 
 function addDock(req, res) {
