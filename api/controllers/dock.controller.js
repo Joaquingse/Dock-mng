@@ -38,7 +38,9 @@ function addDock(req, res) {
 }
 
 async function reserveDock(req, res) {
-
+    
+    try {
+        
     let ship = await Ships.findOne({name: req.body.ship})
     let dock = await Docks.findOne({dock: req.body.dock})
 
@@ -71,6 +73,8 @@ async function reserveDock(req, res) {
         let reserve = await Payments.create(reservation)
         res.json(reserve) 
     }
+    
+    } catch(error) { return error }
 }
 
 /* function reserveDock(req, res) {
