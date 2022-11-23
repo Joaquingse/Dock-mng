@@ -8,10 +8,27 @@ function getDocks(req, res) {
         .catch((err) => res.json(err));
 }
 
-function getAvailableDocks(req, res) {
-    Docks.find({occuppied: false}, {dock: 1, _id:0})
-        .then(dock => res.json(dock))
-        .catch((err) => res.json(err));
+async function getAvailableDocks(req, res) {
+
+    let docks = await Docks.find()
+
+    let dockList = docks.map(elem => (({ dock }) => ({ dock }))(elem))
+
+    let wantedInDate = req.body.inDate
+    let wantedOutDate = req.body.outDate
+
+    let existingRes = await Payments.find({ $or: [
+        { $and: [{outDate: {$gte: wantedInDate}}, {outDate: {$lte: wantedOutDate}}] }, 
+        { $and: [{inDate: {$gte: wantedInDate}}, {inDate: {$lte: wantedOutDate}}] }, 
+        { $and: [{inDate: {$gte: wantedInDate}}, {outDate: {$lte: wantedOutDate}}] }, 
+        { $and: [{inDate: {$lte: wantedInDate}}, {outDate: {$gte: wantedOutDate}}] }
+    ]} ).populate('dock')
+
+    let occupiedDocks = existingRes.map(elem => elem.dock.dock)
+
+    let availableDocks = dockList.filter(elem => !occupiedDocks.includes(elem.dock))
+
+    res.json(availableDocks)
 }
 
 function addDock(req, res) {

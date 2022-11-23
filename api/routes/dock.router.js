@@ -15,7 +15,7 @@ const {
   } = require('../controllers/dock.controller')
 
 router.get('/', authUser, checkMaintenance, getDocks)
-router.get('/available', getAvailableDocks)
+router.post('/available', getAvailableDocks)
 router.post('/', authUser, checkAdmin, addDock)
 router.put('/reserve', authUser, reserveDock)
 router.put('/:id', authUser, checkAdmin, updateDock)
