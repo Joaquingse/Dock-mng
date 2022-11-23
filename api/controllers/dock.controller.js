@@ -18,7 +18,7 @@ async function getAvailableDocks(req, res) {
     let wantedOutDate = req.body.outDate
     
     if(!req.body.inDate || !req.body.outDate ) {
-        res.json('Empty inDate or outDate')
+        res.json(req.body)
     }
     else {
         let existingRes = await Payments.find({ $or: [
