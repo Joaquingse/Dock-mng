@@ -17,7 +17,7 @@ async function getAvailableDocks(req, res) {
     let wantedInDate = req.body.inDate
     let wantedOutDate = req.body.outDate
     
-    if(req.body.inDate === '' || req.body.outDate === '' ) {
+    if(!req.body.inDate || !req.body.outDate ) {
         res.json('Empty inDate or outDate')
     }
     else {
